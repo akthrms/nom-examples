@@ -62,7 +62,24 @@ fn expr(input: &str) -> IResult<&str, Expr> {
     Ok((input, expr))
 }
 
+fn eval(expr: &Expr) -> i64 {
+    match expr {
+        Expr::Num(n) => *n,
+        Expr::Add(left, right) => eval(left) + eval(right),
+        Expr::Sub(left, right) => eval(left) - eval(right),
+        Expr::Mul(left, right) => eval(left) * eval(right),
+        Expr::Div(left, right) => eval(left) / eval(right),
+    }
+}
+
 fn main() {
     let result = expr("(1+2)-3*4/5");
-    println!("{:?}", result);
+
+    match result {
+        Ok((_, ast)) => {
+            println!("ast = {:?}", ast);
+            println!("result = {}", eval(&ast));
+        }
+        Err(e) => println!("err = {:?}", e),
+    }
 }
