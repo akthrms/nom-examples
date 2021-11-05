@@ -37,9 +37,9 @@ fn paren(input: &str) -> IResult<&str, Expr> {
 fn term(input: &str) -> IResult<&str, Expr> {
     let mul_or_div = alt((char('*'), char('/')));
     let mul_or_div_calculates = many0(tuple((mul_or_div, factor)));
-    let (input, exprs) = tuple((factor, mul_or_div_calculates))(input)?;
+    let (input, (expr, exprs)) = tuple((factor, mul_or_div_calculates))(input)?;
 
-    let expr = exprs.1.iter().fold(exprs.0, |left, (op, right)| match op {
+    let expr = exprs.iter().fold(expr, |left, (op, right)| match op {
         '*' => Expr::Mul(Box::new(left), Box::new(right.clone())),
         '/' => Expr::Div(Box::new(left), Box::new(right.clone())),
         _ => left,
@@ -51,9 +51,9 @@ fn term(input: &str) -> IResult<&str, Expr> {
 fn expr(input: &str) -> IResult<&str, Expr> {
     let add_or_sub = alt((char('+'), char('-')));
     let add_or_sub_calculates = many0(tuple((add_or_sub, term)));
-    let (input, exprs) = tuple((term, add_or_sub_calculates))(input)?;
+    let (input, (expr, exprs)) = tuple((term, add_or_sub_calculates))(input)?;
 
-    let expr = exprs.1.iter().fold(exprs.0, |left, (op, right)| match op {
+    let expr = exprs.iter().fold(expr, |left, (op, right)| match op {
         '+' => Expr::Add(Box::new(left), Box::new(right.clone())),
         '-' => Expr::Sub(Box::new(left), Box::new(right.clone())),
         _ => left,
