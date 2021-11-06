@@ -1,7 +1,7 @@
 //! <expr>   ::= <term> [ ('+'|'-') <term> ]*
 //! <term>   ::= <factor> [ ('*'|'/') <factor> ]*
 //! <factor> ::= <number> | '(' <expr> ')'
-//! <number> :== 数値
+//! <number> ::= 数値
 
 use nom::branch::alt;
 use nom::character::complete::{char, digit1};
