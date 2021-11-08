@@ -19,6 +19,10 @@ enum Json {
     Array(Vec<Json>),
 }
 
+fn parse_value(input: &str) -> IResult<&str, Json> {
+    unimplemented!()
+}
+
 fn parse_null(input: &str) -> IResult<&str, Json> {
     let (input, _) = tag("null")(input)?;
     Ok((input, Json::Null))
@@ -54,6 +58,14 @@ fn parse_boolean(input: &str) -> IResult<&str, Json> {
     };
 
     Ok((input, value))
+}
+
+fn parse_object(input: &str) -> IResult<&str, Json> {
+    unimplemented!()
+}
+
+fn parse_array(input: &str) -> IResult<&str, Json> {
+    unimplemented!()
 }
 
 fn main() {}
